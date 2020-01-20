@@ -1,9 +1,10 @@
 import Vue from 'vue'
-import App from '@/components/app.vue'
+import VueApp from '@/components/app.vue'
 import './style.css'
 
+
 new Vue({
-  el: "canvas",
+  el: "#qwe",
   template: `
     <div>{{msg}}</div>`,
   data: {
@@ -13,5 +14,5 @@ new Vue({
 
 
 new Vue({
-  render: h => h(App),
+  render: h => h(VueApp),
 }).$mount('#app');

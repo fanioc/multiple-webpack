@@ -161,7 +161,9 @@ module.exports = (env = {}) => ({
     new BundleAnalyzerPlugin()
   ],
   externals: {
-    vue: "Vue"
+    vue: "Vue",
+    react:"React",
+    "react-dom":"ReactDOM"
   },
   devServer: {
     inline: true,
