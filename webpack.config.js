@@ -71,7 +71,8 @@ module.exports = (env = {}) => ({
               }
             },
             'postcss-loader',
-          ]
+          ],
+        sideEffects: true
       },
       {
         test: /\.scss$/,
@@ -88,7 +89,8 @@ module.exports = (env = {}) => ({
           },
           'postcss-loader',
           'sass-loader'
-        ]
+        ],
+        sideEffects: true
       },
       {
         test: /\.(png|svg|jpg|gif)$/,

@@ -3,12 +3,10 @@
   "version": "1.0.0",
   "description": "my space index",
   "author": "fanioc",
-  "sideEffects": [
-    "*.css"
-  ],
+  "sideEffects": false,
   "scripts": {
-    "build": "webpack --config webpack.config.js --env.prod",
-    "dev": "webpack-dev-server --open --config webpack.config.js",
+    "build": "webpack --config webpack.config.js --env.prod --progress --hide-modules",
+    "dev": "webpack-dev-server --open --config webpack.config.js --progress ",
     "analyse": "webpack-bundle-analyzer ./stats.json"
   },
   "license": "MIT",
@@ -16,11 +14,13 @@
   "dependencies": {
     "autoprefixer": "^9.7.4",
     "postcss-nested": "^4.2.1",
+    "react": "^16.12.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
     "@babel/preset-env": "^7.8.3",
+    "@babel/preset-react": "^7.8.3",
     "@types/webpack-env": "^1.15.0",
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
