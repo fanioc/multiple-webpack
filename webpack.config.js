@@ -147,12 +147,14 @@ module.exports = (env = {}) => ({
     new HtmlWebpackPlugin({
       chunks: ['main'],
       filename: "index.html",
-      template: "./src/pages/index.html"
+      template: "./src/pages/index.html",
+      minify: false
     }),
     new HtmlWebpackPlugin({
       chunks: ['about'],
       filename: "about.html",
-      template: "./src/pages/about/index.html"
+      template: "./src/pages/about/index.html",
+      minify: false
     }),
     new BundleAnalyzerPlugin()
   ],
