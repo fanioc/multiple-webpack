@@ -1,0 +1,45 @@
+{
+  "name": "fanioc-index",
+  "version": "1.0.0",
+  "description": "my space index",
+  "author": "fanioc",
+  "sideEffects": [
+    "*.css"
+  ],
+  "scripts": {
+    "build": "webpack --config webpack.config.js --env.prod",
+    "dev": "webpack-dev-server --open --config webpack.config.js",
+    "analyse": "webpack-bundle-analyzer ./stats.json"
+  },
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "autoprefixer": "^9.7.4",
+    "postcss-nested": "^4.2.1",
+    "vue": "^2.6.11"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.3",
+    "@babel/preset-env": "^7.8.3",
+    "@types/webpack-env": "^1.15.0",
+    "babel-loader": "^8.0.6",
+    "clean-webpack-plugin": "^3.0.0",
+    "css-loader": "^3.4.2",
+    "file-loader": "^5.0.2",
+    "html-loader": "^0.5.5",
+    "html-webpack-plugin": "^4.0.0-beta.11",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.13.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^8.0.2",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "url-loader": "^3.0.0",
+    "vue-loader": "^15.8.3",
+    "vue-template-compiler": "^2.6.11",
+    "webpack": "^4.41.5",
+    "webpack-bundle-analyzer": "^3.6.0",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  }
+}
