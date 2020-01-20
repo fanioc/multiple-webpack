@@ -4,6 +4,7 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = (env = {}) => ({
   mode: env.prod ? "production" : "development",
@@ -140,6 +141,13 @@ module.exports = (env = {}) => ({
   },
   plugins: [
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, "./public"),
+        to: path.resolve(__dirname, "./dist"),
+        ignore: ['.*']
+      }
+    ]),
     new VueLoaderPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].[contenthash:7].css',
@@ -162,8 +170,8 @@ module.exports = (env = {}) => ({
   ],
   externals: {
     vue: "Vue",
-    react:"React",
-    "react-dom":"ReactDOM"
+    react: "React",
+    "react-dom": "ReactDOM"
   },
   devServer: {
     inline: true,
