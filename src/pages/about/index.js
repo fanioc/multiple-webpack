@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import ReactApp from '@/components/main';
+import ReactApp from '@/components/_demo/react_app';
 
 console.log("about");
 
