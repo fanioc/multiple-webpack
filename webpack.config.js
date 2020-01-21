@@ -5,19 +5,30 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+// const HtmlPluginConfigure = require('./build/html_scaner').generateHtmlPluginConfigure();
+// const EntryIndexConfigure = require('./build/entry_scaner').generateEntryIndexConfigure();
+const LoaderRules = require('./build/loader_configure').loader;
+const CDNPrefix = "/";
 
-var HtmlEnter = [
+const EntryIndexConfigure = {
+  /*TODO::入口配置自动生成*/
+  index: path.resolve(__dirname, "./src/pages/index/index.ts"),
+  // index: path.resolve(__dirname, "./src/index.js"),
+  about: path.resolve(__dirname, "./src/pages/about/index.js"),
+};
+
+const HtmlPluginConfigure = [
   /*TODO::Html自动生成*/
   new HtmlWebpackPlugin({
-    chunks: ['main'],
+    chunks: ['index'],
     filename: "index.html",
-    template: "./src/pages/index/index.html",
+    template: path.resolve(__dirname, "./src/pages/index/index.html"),
     minify: false
   }),
   new HtmlWebpackPlugin({
     chunks: ['about'],
     filename: "about.html",
-    template: "./src/pages/about/index.html",
+    template: path.resolve(__dirname, "./src/pages/about/index.html"),
     minify: false
   })
 ];
@@ -30,18 +41,16 @@ module.exports = (env = {}) => {
       filename: 'css/[name].[contenthash:7].css',
       chunkFilename: 'css/[id].[contenthash:7].css',
     }),
-    ...HtmlEnter
+    ...HtmlPluginConfigure
   ];
   if (env.prod) {
     plugin.push(...[
       new CleanWebpackPlugin(),
-      new CopyWebpackPlugin([
-        {
-          from: path.resolve(__dirname, "./public"),
-          to: path.resolve(__dirname, "./dist"),
-          ignore: ['.*']
-        }
-      ]),
+      new CopyWebpackPlugin([{
+        from: path.resolve(__dirname, "./public"),
+        to: path.resolve(__dirname, "./dist"),
+        ignore: ['.*']
+      }]),
       new BundleAnalyzerPlugin()
     ])
   }
@@ -51,18 +60,12 @@ module.exports = (env = {}) => {
     stats: {children: false},
     mode: env.prod ? "production" : "development",
     devtool: env.prod ? undefined : "cheap-module-eval-source-map",
-    entry: {
-      /*TODO::入口配置自动生成*/
-      main: path.resolve(__dirname, "./src/pages/index/index.ts"),
-      // index: path.resolve(__dirname, "./src/index.js"),
-      about: path.resolve(__dirname, "./src/pages/about/index.js"),
-    },
+    entry: EntryIndexConfigure,
     output: {
       filename: env.prod ? 'js/[name].[chunkhash:7].js' : 'js/[name].[hash].js',
       chunkFilename: env.prod ? 'js/[name].[chunkhash:7].js' : 'js/[name].[hash].js',
       path: path.resolve(__dirname, "./dist"),
-      //TODO: 添加 CDN
-      publicPath: env.prod ? "/" : "/",
+      publicPath: env.prod ? CDNPrefix : "/",
     },
     optimization: {
       splitChunks: {
@@ -85,101 +88,7 @@ module.exports = (env = {}) => {
       extensions: [".ts", ".tsx", ".js", ".jsx", ".vue", ".json"]
     },
     module: {
-      rules: [
-        {
-          test: /\.vue$/,
-          use: "vue-loader"
-        },
-        {
-          test: /\.(html)$/,
-          use: {
-            loader: 'html-loader',
-            options: {
-              interpolate: true
-            }
-          }
-        },
-        {
-          test: /\.(css)$/i,
-          use:
-            [
-              {
-                loader: MiniCssExtractPlugin.loader,
-                options: {hmr: true}
-              },
-              {
-                loader: 'css-loader',
-                options: {
-                  importLoaders: 1
-                }
-              },
-              'postcss-loader',
-            ],
-          sideEffects: true
-        },
-        {
-          test: /\.scss$/,
-          use: [
-            {
-              loader: MiniCssExtractPlugin.loader,
-              options: {hmr: true}
-            },
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 2 // 0 => 无 loader(默认); 1 => postcss-loader; 2 => postcss-loader, sass-loader
-              }
-            },
-            'postcss-loader',
-            'sass-loader'
-          ],
-          sideEffects: true
-        },
-        {
-          test: /\.(png|svg|jpg|gif)$/,
-          use: [
-            {
-              loader: 'url-loader',
-              options: {
-                limit: 8192,
-                name: 'img/[name].[contenthash:7].[ext]'
-              }
-            }
-          ]
-        },
-        {
-          test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: [
-            'file-loader'
-          ]
-        },
-        {
-          test: /\.jsx?$/,
-          use: [
-            {loader: "babel-loader"}//cache-loader
-          ],
-        },
-        {
-          test: /\.ts$/,
-          use: [
-            {loader: "babel-loader"},
-            {
-              loader: "ts-loader",
-              options: {appendTsSuffixTo: [/\.vue$/]}//transpileOnly: true,
-            }
-          ]
-        }, {
-          test: /\.tsx$/,
-          use: [
-            {loader: "babel-loader"},
-            {
-              loader: "ts-loader",
-              options: {appendTsxSuffixTo: [/\.vue$/]}//transpileOnly: true,
-            }
-          ]
-
-        }
-      ]
+      rules: [...LoaderRules]
     },
     plugins: plugin,
     externals: {
